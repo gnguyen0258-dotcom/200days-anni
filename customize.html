@@ -1,0 +1,1119 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Customize - Ngày của đôi ta</title>
+  <style>
+    :root {
+      --bg: #0b0614;
+      --panel: #17101f;
+      --panel-2: #211529;
+      --text: #fff7fb;
+      --muted: rgba(255,247,251,.66);
+      --line: rgba(255,255,255,.14);
+      --accent: #ff6b9d;
+      --gold: #ffd17a;
+      --danger: #ff6b7a;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background:
+        radial-gradient(circle at 10% 0%, rgba(255,107,157,.18), transparent 28rem),
+        radial-gradient(circle at 86% 12%, rgba(167,139,250,.16), transparent 26rem),
+        linear-gradient(180deg, #090412, var(--bg));
+      color: var(--text);
+      font: 15px/1.5 Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    button,
+    input,
+    textarea,
+    select {
+      font: inherit;
+    }
+
+    button,
+    a.button {
+      min-height: 42px;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 0 16px;
+      background: rgba(255,255,255,.06);
+      color: var(--text);
+      font-weight: 800;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    button.primary,
+    a.primary {
+      border: 0;
+      background: linear-gradient(135deg, var(--accent), #ffd17a);
+      color: #1a0712;
+      box-shadow: 0 14px 42px rgba(255,107,157,.24);
+    }
+
+    button.danger {
+      border-color: rgba(255,107,122,.36);
+      color: #ffd3da;
+      background: rgba(255,107,122,.09);
+    }
+
+    button.small {
+      min-height: 34px;
+      padding: 0 10px;
+      border-radius: 8px;
+      font-size: 13px;
+    }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 14px clamp(14px, 4vw, 34px);
+      border-bottom: 1px solid var(--line);
+      background: rgba(11, 6, 20, .86);
+      backdrop-filter: blur(16px);
+    }
+
+    h1,
+    h2,
+    h3,
+    p {
+      margin-top: 0;
+    }
+
+    h1 {
+      margin-bottom: 0;
+      font-size: 20px;
+      letter-spacing: 0;
+    }
+
+    h2 {
+      margin-bottom: 14px;
+      font-size: 17px;
+    }
+
+    h3 {
+      margin-bottom: 10px;
+      font-size: 15px;
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+    }
+
+    main {
+      width: min(1380px, calc(100% - 28px));
+      margin: 0 auto;
+      padding: 24px 0 60px;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 370px;
+      gap: 18px;
+      align-items: start;
+    }
+
+    .stack {
+      display: grid;
+      gap: 16px;
+    }
+
+    .panel {
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: color-mix(in srgb, var(--panel) 92%, transparent);
+      box-shadow: 0 18px 60px rgba(0,0,0,.24);
+      padding: 18px;
+    }
+
+    .subtle {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    label {
+      display: block;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 800;
+      margin: 10px 0 6px;
+    }
+
+    input[type="text"],
+    input[type="number"],
+    input[type="color"],
+    textarea,
+    select {
+      width: 100%;
+      min-height: 40px;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: rgba(0,0,0,.24);
+      color: var(--text);
+      padding: 10px 12px;
+      outline: none;
+    }
+
+    textarea {
+      min-height: 124px;
+      resize: vertical;
+      white-space: pre-wrap;
+    }
+
+    input[type="file"] {
+      width: 100%;
+      border: 1px dashed rgba(255,255,255,.22);
+      border-radius: 10px;
+      background: rgba(255,255,255,.04);
+      padding: 10px;
+      color: var(--muted);
+    }
+
+    input[type="color"] {
+      height: 42px;
+      padding: 4px;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .row-head {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    .item {
+      border: 1px solid rgba(255,255,255,.11);
+      border-radius: 12px;
+      background: rgba(255,255,255,.035);
+      padding: 14px;
+      display: grid;
+      grid-template-columns: 132px minmax(0, 1fr);
+      gap: 14px;
+      margin-top: 12px;
+    }
+
+    .thumb {
+      width: 132px;
+      aspect-ratio: 1;
+      border: 1px solid rgba(255,255,255,.13);
+      border-radius: 10px;
+      background:
+        radial-gradient(circle at 40% 35%, rgba(255,209,122,.22), transparent 36%),
+        #100a19;
+      object-fit: cover;
+      display: block;
+    }
+
+    .placeholder {
+      display: grid;
+      place-items: center;
+      text-align: center;
+      color: var(--muted);
+      font-size: 12px;
+      padding: 12px;
+    }
+
+    .inline {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .inline > * {
+      flex: 1;
+      min-width: 120px;
+    }
+
+    .sticky {
+      position: sticky;
+      top: 82px;
+    }
+
+    .preview-title {
+      font-size: 26px;
+      color: var(--gold);
+      margin-bottom: 2px;
+    }
+
+    .metric-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      margin: 14px 0;
+    }
+
+    .metric {
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: rgba(255,255,255,.04);
+      padding: 10px;
+    }
+
+    .metric strong {
+      display: block;
+      font-size: 22px;
+      color: var(--gold);
+      line-height: 1;
+      margin-bottom: 4px;
+    }
+
+    .mini-thumbs {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+    }
+
+    .mini-thumbs img {
+      width: 100%;
+      aspect-ratio: 1;
+      object-fit: cover;
+      border-radius: 8px;
+      border: 1px solid var(--line);
+    }
+
+    .status {
+      min-height: 22px;
+      margin-top: 12px;
+      color: var(--gold);
+      font-size: 13px;
+      font-weight: 800;
+      white-space: pre-wrap;
+    }
+
+    .download-result {
+      margin-top: 12px;
+      padding: 12px;
+      border: 1px solid rgba(255, 216, 130, .32);
+      border-radius: 12px;
+      background: rgba(255, 216, 130, .08);
+      display: grid;
+      gap: 8px;
+    }
+
+    .download-result.hidden {
+      display: none;
+    }
+
+    .download-result strong {
+      color: var(--gold);
+      font-size: 14px;
+    }
+
+    .download-result .button {
+      justify-content: center;
+    }
+
+    .checkbox {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      margin-top: 10px;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .checkbox input {
+      width: 16px;
+      height: 16px;
+    }
+
+    @media (max-width: 980px) {
+      header,
+      main {
+        grid-template-columns: 1fr;
+      }
+
+      header {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .sticky {
+        position: static;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .grid-2,
+      .item {
+        grid-template-columns: 1fr;
+      }
+
+      .thumb {
+        width: 100%;
+        max-width: 220px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div>
+      <h1>Customize Ngày của đôi ta</h1>
+      <div class="subtle">Chỉnh nội dung, ảnh, nhạc rồi xuất ZIP để upload lên GitHub Pages.</div>
+    </div>
+    <div class="actions">
+      <a id="previewLink" class="button" href="index.html?preview=1" target="_blank" rel="noreferrer">Xem trang</a>
+      <button id="saveDraftBtn" class="primary" type="button">Lưu nháp</button>
+      <button id="exportZipBtn" class="primary" type="button">Xuất ZIP</button>
+    </div>
+  </header>
+
+  <main>
+    <div class="stack">
+      <section class="panel">
+        <h2>Thông tin mở đầu</h2>
+        <div class="grid-2">
+          <div>
+            <label for="introTopic">Tiêu đề</label>
+            <input id="introTopic" type="text" />
+          </div>
+          <div>
+            <label for="recipientName">Tên người nhận</label>
+            <input id="recipientName" type="text" />
+          </div>
+        </div>
+        <div class="grid-2">
+          <div>
+            <label for="heartColor">Màu trái tim</label>
+            <input id="heartColor" type="color" />
+          </div>
+          <div>
+            <label for="audioVolume">Âm lượng nhạc</label>
+            <input id="audioVolume" type="number" min="0" max="1" step="0.05" />
+          </div>
+        </div>
+        <label for="musicFile">Nhạc nền mới</label>
+        <input id="musicFile" type="file" accept="audio/*" />
+        <div class="checkbox">
+          <input id="compressImages" type="checkbox" checked />
+          <span>Nén ảnh mới khi xuất ZIP để tránh file quá nặng</span>
+        </div>
+      </section>
+
+      <section class="panel">
+        <div class="row-head">
+          <div>
+            <h2>Thư tình</h2>
+            <p class="subtle">Mỗi trang gồm ảnh và nội dung chữ. Kéo dài nội dung thoải mái.</p>
+          </div>
+          <button id="addPageBtn" class="small" type="button">Thêm trang</button>
+        </div>
+        <div id="pagesList"></div>
+      </section>
+
+      <section class="panel">
+        <div class="row-head">
+          <div>
+            <h2>Galaxy ảnh</h2>
+            <p class="subtle">Mỗi ảnh là một “plate” trong phần vũ trụ 3D.</p>
+          </div>
+          <button id="addPlateBtn" class="small" type="button">Thêm ảnh</button>
+        </div>
+        <div id="platesList"></div>
+      </section>
+
+      <section class="panel">
+        <h2>Câu bay trong galaxy</h2>
+        <label for="phrasesText">Mỗi dòng là một câu</label>
+        <textarea id="phrasesText"></textarea>
+      </section>
+    </div>
+
+    <aside class="stack sticky">
+      <section class="panel">
+        <h2>Preview nhanh</h2>
+        <div class="preview-title" id="previewTopic"></div>
+        <div class="subtle" id="previewName"></div>
+        <div class="metric-grid">
+          <div class="metric"><strong id="pageCount">0</strong><span>trang thư</span></div>
+          <div class="metric"><strong id="plateCount">0</strong><span>ảnh galaxy</span></div>
+          <div class="metric"><strong id="phraseCount">0</strong><span>câu</span></div>
+        </div>
+        <div class="mini-thumbs" id="previewThumbs"></div>
+        <div class="status" id="status"></div>
+        <div class="download-result hidden" id="downloadResult">
+          <strong>ZIP da san sang</strong>
+          <a class="button primary" id="manualDownloadLink" href="#" download="our-day-customized.zip">Tai ZIP thu cong</a>
+          <div class="subtle" id="downloadSize"></div>
+        </div>
+      </section>
+
+      <section class="panel">
+        <h2>Quản lý</h2>
+        <div class="actions">
+          <button id="loadOriginalBtn" type="button">Tải config gốc</button>
+          <button id="clearDraftBtn" class="danger" type="button">Xóa nháp</button>
+        </div>
+        <p class="subtle" style="margin-top: 12px;">Nháp chỉ lưu trên trình duyệt hiện tại. ZIP xuất ra là bộ source hoàn chỉnh.</p>
+      </section>
+    </aside>
+  </main>
+
+  <script>
+    const STATIC_FILES = [
+      'index.html',
+      'customize.html',
+      'README.md',
+      'style.css',
+      'main.js',
+      'data.js',
+      'favicon.ico',
+      'acts/act1_intro.css',
+      'acts/act1_intro.js',
+      'acts/act2_book.css',
+      'acts/act2_book.js',
+      'acts/act3_constellation.js',
+      'acts/act4_galaxy.css',
+      'acts/act4_galaxy.js',
+      'assets/images/logo.png',
+      'assets/images/logo-192.png'
+    ];
+
+    const DB_NAME = 'OurDayCustomizeDB';
+    const STORE = 'drafts';
+    const DRAFT_KEY = 'current';
+    const PATTERNS = ['heart', 'sky', 'rose'];
+    let state = null;
+    let objectUrls = [];
+    let exportUrl = '';
+
+    const el = {
+      introTopic: document.getElementById('introTopic'),
+      recipientName: document.getElementById('recipientName'),
+      heartColor: document.getElementById('heartColor'),
+      audioVolume: document.getElementById('audioVolume'),
+      musicFile: document.getElementById('musicFile'),
+      compressImages: document.getElementById('compressImages'),
+      pagesList: document.getElementById('pagesList'),
+      platesList: document.getElementById('platesList'),
+      phrasesText: document.getElementById('phrasesText'),
+      previewTopic: document.getElementById('previewTopic'),
+      previewName: document.getElementById('previewName'),
+      pageCount: document.getElementById('pageCount'),
+      plateCount: document.getElementById('plateCount'),
+      phraseCount: document.getElementById('phraseCount'),
+      previewThumbs: document.getElementById('previewThumbs'),
+      status: document.getElementById('status'),
+      downloadResult: document.getElementById('downloadResult'),
+      manualDownloadLink: document.getElementById('manualDownloadLink'),
+      downloadSize: document.getElementById('downloadSize')
+    };
+
+    function setStatus(message) {
+      el.status.textContent = message || '';
+    }
+
+    function hideDownloadResult() {
+      if (exportUrl) {
+        URL.revokeObjectURL(exportUrl);
+        exportUrl = '';
+      }
+      el.downloadResult.classList.add('hidden');
+      el.manualDownloadLink.removeAttribute('href');
+      el.manualDownloadLink.removeAttribute('download');
+      el.downloadSize.textContent = '';
+    }
+
+    function openDb() {
+      return new Promise((resolve, reject) => {
+        const req = indexedDB.open(DB_NAME, 1);
+        req.onupgradeneeded = () => req.result.createObjectStore(STORE);
+        req.onsuccess = () => resolve(req.result);
+        req.onerror = () => reject(req.error);
+      });
+    }
+
+    async function readDraft() {
+      try {
+        const db = await openDb();
+        return await new Promise((resolve) => {
+          const tx = db.transaction(STORE, 'readonly');
+          const req = tx.objectStore(STORE).get(DRAFT_KEY);
+          req.onsuccess = () => resolve(req.result || null);
+          req.onerror = () => resolve(null);
+          tx.oncomplete = () => db.close();
+        });
+      } catch (error) {
+        return null;
+      }
+    }
+
+    async function writeDraft(value) {
+      const db = await openDb();
+      await new Promise((resolve, reject) => {
+        const tx = db.transaction(STORE, 'readwrite');
+        tx.objectStore(STORE).put(value, DRAFT_KEY);
+        tx.oncomplete = resolve;
+        tx.onerror = () => reject(tx.error);
+      });
+      db.close();
+    }
+
+    async function clearDraft() {
+      const db = await openDb();
+      await new Promise((resolve, reject) => {
+        const tx = db.transaction(STORE, 'readwrite');
+        tx.objectStore(STORE).delete(DRAFT_KEY);
+        tx.oncomplete = resolve;
+        tx.onerror = () => reject(tx.error);
+      });
+      db.close();
+    }
+
+    function revokeObjectUrls() {
+      objectUrls.forEach((url) => URL.revokeObjectURL(url));
+      objectUrls = [];
+    }
+
+    function previewUrl(item) {
+      if (item.file instanceof Blob) {
+        const url = URL.createObjectURL(item.file);
+        objectUrls.push(url);
+        return url;
+      }
+      return item.image || item.src || '';
+    }
+
+    async function loadOriginalConfig() {
+      const res = await fetch('assets/config.json', { cache: 'no-store' });
+      if (!res.ok) throw new Error('Không tải được assets/config.json');
+      const config = await res.json();
+      return normalizeState(config);
+    }
+
+    function normalizeState(config) {
+      const pages = (config.book?.pages || []).map((page) => ({
+        text: page.text || '',
+        image: page.image || '',
+        file: null
+      }));
+      const plates = (config.galaxy?.plates || []).map((plate, index) => ({
+        name: plate.name || `Kỷ niệm #${index + 1}`,
+        message: plate.message || '',
+        src: plate.src || '',
+        hue: Number(plate.hue || 320),
+        pattern: PATTERNS.includes(plate.pattern) ? plate.pattern : PATTERNS[index % PATTERNS.length],
+        file: null
+      }));
+      return {
+        intro: {
+          topic: config.intro?.topic || 'Happy Anniversary',
+          recipientName: config.intro?.recipientName || 'Em yêu'
+        },
+        book: { pages },
+        galaxy: {
+          plates,
+          phrases: Array.isArray(config.galaxy?.phrases) ? config.galaxy.phrases : []
+        },
+        heart: { heartColor: config.heart?.heartColor || '#ff1493' },
+        audio: { src: config.audio?.src || '', volume: Number(config.audio?.volume ?? 1), file: null }
+      };
+    }
+
+    function collectFromForm() {
+      state.intro.topic = el.introTopic.value.trim() || 'Happy Anniversary';
+      state.intro.recipientName = el.recipientName.value.trim() || 'Em yêu';
+      state.heart.heartColor = el.heartColor.value || '#ff1493';
+      state.audio.volume = Number(el.audioVolume.value || 1);
+      state.galaxy.phrases = el.phrasesText.value.split('\n').map((line) => line.trim()).filter(Boolean);
+      return state;
+    }
+
+    function fillForm(nextState) {
+      revokeObjectUrls();
+      state = normalizeState(toExportConfig(nextState, { keepFiles: true }));
+      state.audio.file = nextState.audio?.file || null;
+      state.book.pages.forEach((page, index) => page.file = nextState.book?.pages?.[index]?.file || null);
+      state.galaxy.plates.forEach((plate, index) => plate.file = nextState.galaxy?.plates?.[index]?.file || null);
+      el.introTopic.value = state.intro.topic;
+      el.recipientName.value = state.intro.recipientName;
+      el.heartColor.value = state.heart.heartColor;
+      el.audioVolume.value = String(state.audio.volume);
+      el.phrasesText.value = state.galaxy.phrases.join('\n');
+      renderLists();
+      updatePreview();
+    }
+
+    function renderLists() {
+      el.pagesList.innerHTML = '';
+      state.book.pages.forEach((page, index) => {
+        const item = document.createElement('article');
+        item.className = 'item';
+        item.innerHTML = `
+          <div>
+            ${previewUrl(page) ? `<img class="thumb" src="${previewUrl(page)}" alt="">` : '<div class="thumb placeholder">Chưa có ảnh</div>'}
+            <label>Đổi ảnh</label>
+            <input data-kind="page-file" data-index="${index}" type="file" accept="image/*">
+          </div>
+          <div>
+            <div class="row-head">
+              <h3>Trang thư ${index + 1}</h3>
+              <button class="small danger" data-kind="remove-page" data-index="${index}" type="button">Xóa</button>
+            </div>
+            <label>Nội dung</label>
+            <textarea data-kind="page-text" data-index="${index}"></textarea>
+          </div>
+        `;
+        item.querySelector('textarea').value = page.text || '';
+        el.pagesList.appendChild(item);
+      });
+
+      el.platesList.innerHTML = '';
+      state.galaxy.plates.forEach((plate, index) => {
+        const item = document.createElement('article');
+        item.className = 'item';
+        item.innerHTML = `
+          <div>
+            ${previewUrl(plate) ? `<img class="thumb" src="${previewUrl(plate)}" alt="">` : '<div class="thumb placeholder">Chưa có ảnh</div>'}
+            <label>Đổi ảnh</label>
+            <input data-kind="plate-file" data-index="${index}" type="file" accept="image/*">
+          </div>
+          <div>
+            <div class="row-head">
+              <h3>Ảnh galaxy ${index + 1}</h3>
+              <button class="small danger" data-kind="remove-plate" data-index="${index}" type="button">Xóa</button>
+            </div>
+            <div class="grid-2">
+              <div>
+                <label>Tên kỷ niệm</label>
+                <input data-kind="plate-name" data-index="${index}" type="text" value="">
+              </div>
+              <div>
+                <label>Kiểu plate</label>
+                <select data-kind="plate-pattern" data-index="${index}">
+                  ${PATTERNS.map((pattern) => `<option value="${pattern}">${pattern}</option>`).join('')}
+                </select>
+              </div>
+            </div>
+            <label>Lời nhắn</label>
+            <textarea data-kind="plate-message" data-index="${index}"></textarea>
+            <label>Hue màu</label>
+            <input data-kind="plate-hue" data-index="${index}" type="number" min="0" max="360" step="1">
+          </div>
+        `;
+        item.querySelector('[data-kind="plate-name"]').value = plate.name || '';
+        item.querySelector('[data-kind="plate-pattern"]').value = plate.pattern || 'heart';
+        item.querySelector('[data-kind="plate-message"]').value = plate.message || '';
+        item.querySelector('[data-kind="plate-hue"]').value = String(plate.hue || 320);
+        el.platesList.appendChild(item);
+      });
+    }
+
+    function updatePreview() {
+      collectFromForm();
+      el.previewTopic.textContent = state.intro.topic;
+      el.previewName.textContent = state.intro.recipientName;
+      el.pageCount.textContent = state.book.pages.length;
+      el.plateCount.textContent = state.galaxy.plates.length;
+      el.phraseCount.textContent = state.galaxy.phrases.length;
+      el.previewThumbs.innerHTML = '';
+      [...state.book.pages, ...state.galaxy.plates].slice(0, 8).forEach((item) => {
+        const src = previewUrl(item);
+        if (!src) return;
+        const img = document.createElement('img');
+        img.src = src;
+        img.alt = '';
+        el.previewThumbs.appendChild(img);
+      });
+    }
+
+    function wireEvents() {
+      ['input', 'change'].forEach((eventName) => {
+        document.addEventListener(eventName, async (event) => {
+          const target = event.target;
+          const kind = target.dataset.kind;
+          if (!kind) {
+            updatePreview();
+            return;
+          }
+          const index = Number(target.dataset.index);
+          if (kind === 'page-text') state.book.pages[index].text = target.value;
+          if (kind === 'plate-name') state.galaxy.plates[index].name = target.value;
+          if (kind === 'plate-message') state.galaxy.plates[index].message = target.value;
+          if (kind === 'plate-hue') state.galaxy.plates[index].hue = Number(target.value || 320);
+          if (kind === 'plate-pattern') state.galaxy.plates[index].pattern = target.value;
+          if (kind === 'page-file' && target.files?.[0]) {
+            state.book.pages[index].file = target.files[0];
+            state.book.pages[index].image = '';
+            renderLists();
+          }
+          if (kind === 'plate-file' && target.files?.[0]) {
+            state.galaxy.plates[index].file = target.files[0];
+            state.galaxy.plates[index].src = '';
+            renderLists();
+          }
+          updatePreview();
+        });
+      });
+
+      document.addEventListener('click', (event) => {
+        const target = event.target.closest('button');
+        if (!target) return;
+        const kind = target.dataset.kind;
+        const index = Number(target.dataset.index);
+        if (kind === 'remove-page') {
+          state.book.pages.splice(index, 1);
+          renderLists();
+          updatePreview();
+        }
+        if (kind === 'remove-plate') {
+          state.galaxy.plates.splice(index, 1);
+          renderLists();
+          updatePreview();
+        }
+      });
+
+      el.musicFile.addEventListener('change', () => {
+        if (el.musicFile.files?.[0]) {
+          state.audio.file = el.musicFile.files[0];
+          state.audio.src = '';
+          setStatus('Đã chọn nhạc mới.');
+        }
+      });
+
+      document.getElementById('addPageBtn').addEventListener('click', () => {
+        collectFromForm();
+        state.book.pages.push({ text: '', image: '', file: null });
+        renderLists();
+        updatePreview();
+      });
+
+      document.getElementById('addPlateBtn').addEventListener('click', () => {
+        collectFromForm();
+        state.galaxy.plates.push({
+          name: `Kỷ niệm #${state.galaxy.plates.length + 1}`,
+          message: '',
+          src: '',
+          hue: 320,
+          pattern: PATTERNS[state.galaxy.plates.length % PATTERNS.length],
+          file: null
+        });
+        renderLists();
+        updatePreview();
+      });
+
+      document.getElementById('saveDraftBtn').addEventListener('click', async () => {
+        collectFromForm();
+        await writeDraft(state);
+        setStatus('Đã lưu nháp trên trình duyệt này.');
+      });
+
+      document.getElementById('previewLink').addEventListener('click', async (event) => {
+        event.preventDefault();
+        collectFromForm();
+        await writeDraft(state);
+        window.open('index.html?preview=1', '_blank', 'noopener,noreferrer');
+        setStatus('Da luu nhap va mo preview trang chinh.');
+      });
+
+      document.getElementById('clearDraftBtn').addEventListener('click', async () => {
+        await clearDraft();
+        fillForm(await loadOriginalConfig());
+        setStatus('Đã xóa nháp và tải lại config gốc.');
+      });
+
+      document.getElementById('loadOriginalBtn').addEventListener('click', async () => {
+        fillForm(await loadOriginalConfig());
+        setStatus('Đã tải lại config gốc.');
+      });
+
+      document.getElementById('exportZipBtn').addEventListener('click', async () => {
+        try {
+          collectFromForm();
+          hideDownloadResult();
+          setStatus('Đang đóng gói ZIP...');
+          const blob = await buildExportBlob();
+          const filename = makeExportFilename();
+          showDownloadResult(blob, filename);
+          triggerDownload(exportUrl, filename);
+          setStatus('Đã xuất ZIP. Giải nén rồi upload toàn bộ file lên GitHub Pages.');
+        } catch (error) {
+          console.error(error);
+          setStatus('Xuất ZIP lỗi: ' + (error.message || error));
+        }
+      });
+    }
+
+    function toExportConfig(source, options = {}) {
+      return {
+        intro: {
+          topic: source.intro?.topic || 'Happy Anniversary',
+          recipientName: source.intro?.recipientName || 'Em yêu'
+        },
+        book: {
+          pages: (source.book?.pages || []).map((page) => ({
+            text: page.text || '',
+            image: page.image || ''
+          }))
+        },
+        galaxy: {
+          plates: (source.galaxy?.plates || []).map((plate) => ({
+            name: plate.name || '',
+            message: plate.message || '',
+            src: plate.src || '',
+            hue: Number(plate.hue || 320),
+            pattern: plate.pattern || 'heart'
+          })),
+          phrases: Array.isArray(source.galaxy?.phrases) ? source.galaxy.phrases : []
+        },
+        heart: {
+          heartColor: source.heart?.heartColor || '#ff1493'
+        },
+        audio: {
+          src: source.audio?.src || '',
+          volume: Number(source.audio?.volume ?? 1)
+        }
+      };
+    }
+
+    function safeExt(file, fallback) {
+      const byType = {
+        'image/jpeg': 'jpg',
+        'image/png': 'png',
+        'image/webp': 'webp',
+        'image/gif': 'gif',
+        'audio/mpeg': 'mp3',
+        'audio/mp3': 'mp3',
+        'audio/wav': 'wav',
+        'audio/ogg': 'ogg',
+        'audio/mp4': 'm4a'
+      };
+      if (byType[file?.type]) return byType[file.type];
+      const match = (file?.name || '').toLowerCase().match(/\.([a-z0-9]+)$/);
+      return match ? match[1].replace('jpeg', 'jpg') : fallback;
+    }
+
+    async function maybeCompressImage(file) {
+      if (!el.compressImages.checked || !file.type.startsWith('image/') || file.type === 'image/gif') return file;
+      const bitmap = await createImageBitmap(file).catch(() => null);
+      if (!bitmap) return file;
+      const maxSide = 1800;
+      const scale = Math.min(1, maxSide / Math.max(bitmap.width, bitmap.height));
+      const width = Math.max(1, Math.round(bitmap.width * scale));
+      const height = Math.max(1, Math.round(bitmap.height * scale));
+      const canvas = document.createElement('canvas');
+      canvas.width = width;
+      canvas.height = height;
+      const ctx = canvas.getContext('2d');
+      ctx.drawImage(bitmap, 0, 0, width, height);
+      const blob = await new Promise((resolve) => canvas.toBlob(resolve, 'image/jpeg', 0.86));
+      return blob || file;
+    }
+
+    async function buildExportBlob() {
+      const files = new Map();
+      for (const path of STATIC_FILES) {
+        const res = await fetch(path, { cache: 'no-store' });
+        if (!res.ok) throw new Error('Không đọc được file: ' + path);
+        files.set(path, new Uint8Array(await res.arrayBuffer()));
+      }
+
+      const config = toExportConfig(state);
+
+      for (let i = 0; i < state.book.pages.length; i += 1) {
+        const page = state.book.pages[i];
+        if (page.file instanceof Blob) {
+          const blob = await maybeCompressImage(page.file);
+          const dest = `assets/images/letter-${String(i + 1).padStart(2, '0')}.${blob.type === 'image/jpeg' ? 'jpg' : safeExt(page.file, 'jpg')}`;
+          files.set(dest, new Uint8Array(await blob.arrayBuffer()));
+          config.book.pages[i].image = dest;
+        } else if (page.image) {
+          await addExistingAsset(files, page.image);
+          config.book.pages[i].image = page.image;
+        }
+      }
+
+      for (let i = 0; i < state.galaxy.plates.length; i += 1) {
+        const plate = state.galaxy.plates[i];
+        if (plate.file instanceof Blob) {
+          const blob = await maybeCompressImage(plate.file);
+          const dest = `assets/images/gallery-${String(i + 1).padStart(2, '0')}.${blob.type === 'image/jpeg' ? 'jpg' : safeExt(plate.file, 'jpg')}`;
+          files.set(dest, new Uint8Array(await blob.arrayBuffer()));
+          config.galaxy.plates[i].src = dest;
+        } else if (plate.src) {
+          await addExistingAsset(files, plate.src);
+          config.galaxy.plates[i].src = plate.src;
+        }
+      }
+
+      if (state.audio.file instanceof Blob) {
+        const ext = safeExt(state.audio.file, 'mp3');
+        const dest = `assets/music/background.${ext}`;
+        files.set(dest, new Uint8Array(await state.audio.file.arrayBuffer()));
+        config.audio.src = dest;
+      } else if (state.audio.src) {
+        await addExistingAsset(files, state.audio.src);
+        config.audio.src = state.audio.src;
+      }
+
+      const json = JSON.stringify(config, null, 2);
+      files.set('assets/config.json', new TextEncoder().encode(json));
+      files.set('assets/config.js', new TextEncoder().encode('window.FIREBASE_DATA = ' + json + ';\n'));
+      return makeZip(files);
+    }
+
+    async function addExistingAsset(files, path) {
+      if (!path || files.has(path)) return;
+      const res = await fetch(path, { cache: 'no-store' });
+      if (!res.ok) throw new Error('Không đọc được asset: ' + path);
+      files.set(path, new Uint8Array(await res.arrayBuffer()));
+    }
+
+    function makeExportFilename() {
+      const now = new Date();
+      const stamp = [
+        now.getFullYear(),
+        String(now.getMonth() + 1).padStart(2, '0'),
+        String(now.getDate()).padStart(2, '0'),
+        String(now.getHours()).padStart(2, '0'),
+        String(now.getMinutes()).padStart(2, '0')
+      ].join('');
+      return `our-day-customized-${stamp}.zip`;
+    }
+
+    function showDownloadResult(blob, filename) {
+      hideDownloadResult();
+      exportUrl = URL.createObjectURL(blob);
+      el.manualDownloadLink.href = exportUrl;
+      el.manualDownloadLink.download = filename;
+      el.downloadSize.textContent = `${filename} - ${(blob.size / 1024 / 1024).toFixed(2)} MB`;
+      el.downloadResult.classList.remove('hidden');
+    }
+
+    function triggerDownload(url, filename) {
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+    }
+
+    function makeZip(fileMap) {
+      const records = [];
+      const chunks = [];
+      let offset = 0;
+      for (const [name, data] of fileMap.entries()) {
+        const encodedName = new TextEncoder().encode(name.replaceAll('\\', '/'));
+        const crc = crc32(data);
+        const local = new Uint8Array(30 + encodedName.length);
+        const view = new DataView(local.buffer);
+        view.setUint32(0, 0x04034b50, true);
+        view.setUint16(4, 20, true);
+        view.setUint16(6, 0, true);
+        view.setUint16(8, 0, true);
+        view.setUint16(10, dosTime(), true);
+        view.setUint16(12, dosDate(), true);
+        view.setUint32(14, crc, true);
+        view.setUint32(18, data.length, true);
+        view.setUint32(22, data.length, true);
+        view.setUint16(26, encodedName.length, true);
+        local.set(encodedName, 30);
+        chunks.push(local, data);
+        records.push({ name: encodedName, crc, size: data.length, offset });
+        offset += local.length + data.length;
+      }
+
+      const centralStart = offset;
+      for (const record of records) {
+        const central = new Uint8Array(46 + record.name.length);
+        const view = new DataView(central.buffer);
+        view.setUint32(0, 0x02014b50, true);
+        view.setUint16(4, 20, true);
+        view.setUint16(6, 20, true);
+        view.setUint16(8, 0, true);
+        view.setUint16(10, 0, true);
+        view.setUint16(12, dosTime(), true);
+        view.setUint16(14, dosDate(), true);
+        view.setUint32(16, record.crc, true);
+        view.setUint32(20, record.size, true);
+        view.setUint32(24, record.size, true);
+        view.setUint16(28, record.name.length, true);
+        view.setUint32(42, record.offset, true);
+        central.set(record.name, 46);
+        chunks.push(central);
+        offset += central.length;
+      }
+
+      const centralSize = offset - centralStart;
+      const end = new Uint8Array(22);
+      const endView = new DataView(end.buffer);
+      endView.setUint32(0, 0x06054b50, true);
+      endView.setUint16(8, records.length, true);
+      endView.setUint16(10, records.length, true);
+      endView.setUint32(12, centralSize, true);
+      endView.setUint32(16, centralStart, true);
+      chunks.push(end);
+      return new Blob(chunks, { type: 'application/zip' });
+    }
+
+    let crcTable = null;
+    function crc32(data) {
+      if (!crcTable) {
+        crcTable = new Uint32Array(256);
+        for (let n = 0; n < 256; n += 1) {
+          let c = n;
+          for (let k = 0; k < 8; k += 1) c = c & 1 ? 0xedb88320 ^ (c >>> 1) : c >>> 1;
+          crcTable[n] = c >>> 0;
+        }
+      }
+      let crc = 0xffffffff;
+      for (let i = 0; i < data.length; i += 1) crc = crcTable[(crc ^ data[i]) & 0xff] ^ (crc >>> 8);
+      return (crc ^ 0xffffffff) >>> 0;
+    }
+
+    function dosTime() {
+      const d = new Date();
+      return (d.getHours() << 11) | (d.getMinutes() << 5) | Math.floor(d.getSeconds() / 2);
+    }
+
+    function dosDate() {
+      const d = new Date();
+      return ((d.getFullYear() - 1980) << 9) | ((d.getMonth() + 1) << 5) | d.getDate();
+    }
+
+    async function boot() {
+      const original = await loadOriginalConfig();
+      const draft = await readDraft();
+      fillForm(draft || original);
+      wireEvents();
+      setStatus(draft ? 'Đã tải nháp đã lưu.' : 'Đã tải config hiện tại.');
+      window.__customizeTest = {
+        getState: () => collectFromForm(),
+        buildExportBlob
+      };
+    }
+
+    boot().catch((error) => {
+      console.error(error);
+      setStatus('Không mở được editor: ' + (error.message || error));
+    });
+  </script>
+</body>
+</html>

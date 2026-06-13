@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <meta name="theme-color" content="#0a0118" />
+  <title>Ngày của đôi ta - Clone</title>
+
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/images/logo.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="assets/images/logo-192.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/images/logo-192.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Caveat:wght@400;500;600;700&family=Pinyon+Script&family=Pacifico&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet" />
+
+  <script type="importmap">
+  {
+    "imports": {
+      "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+      "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+    }
+  }
+  </script>
+
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="acts/act1_intro.css" />
+  <link rel="stylesheet" href="acts/act2_book.css" />
+  <link rel="stylesheet" href="acts/act4_galaxy.css" />
+
+  <style>
+    #u-loading {
+      position: fixed;
+      inset: 0;
+      z-index: 9000;
+      background: radial-gradient(ellipse at center, #1f0838 0%, #0e0420 40%, #07020f 100%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-family: "Cormorant Garamond", Georgia, serif;
+      transition: opacity .7s ease;
+    }
+
+    #u-loading.hide {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    #u-loading-ring {
+      width: 84px;
+      height: 84px;
+      position: relative;
+      margin-bottom: 24px;
+    }
+
+    #u-loading-ring svg {
+      width: 100%;
+      height: 100%;
+    }
+
+    @keyframes uLoaderSpin {
+      0% { stroke-dashoffset: 0; transform: rotate(0); }
+      100% { stroke-dashoffset: -214; transform: rotate(540deg); }
+    }
+
+    #u-loading-title {
+      font-family: "Cinzel", "Cormorant Garamond", serif;
+      font-size: clamp(20px, 3vw, 28px);
+      font-weight: 500;
+      letter-spacing: 0.32em;
+      text-transform: uppercase;
+      color: #ffd17a;
+      text-shadow: 0 0 30px rgba(255, 209, 122, 0.4);
+      margin-bottom: 10px;
+      text-align: center;
+    }
+
+    #u-loading-sub {
+      font-style: italic;
+      font-size: clamp(14px, 1.6vw, 17px);
+      color: rgba(255,247,251,.62);
+      letter-spacing: 0.05em;
+      margin-bottom: 8px;
+    }
+
+    #u-loading-hint {
+      font-size: 12px;
+      color: rgba(255,247,251,.32);
+      letter-spacing: 0.08em;
+    }
+  </style>
+</head>
+<body>
+  <div id="u-loading">
+    <div id="u-loading-ring">
+      <svg viewBox="0 0 84 84" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="42" cy="42" r="36" stroke="rgba(255, 209, 122, 0.12)" stroke-width="1.2"/>
+        <circle cx="42" cy="42" r="36" stroke="url(#uG1)" stroke-width="1.5"
+                stroke-dasharray="60 154" stroke-linecap="round"
+                style="animation:uLoaderSpin 1.6s cubic-bezier(.6,.15,.35,.85) infinite; transform-origin:center"/>
+        <circle cx="42" cy="42" r="26" stroke="rgba(255, 142, 184, 0.18)" stroke-width="0.8"/>
+        <circle cx="42" cy="42" r="26" stroke="url(#uG2)" stroke-width="1.0"
+                stroke-dasharray="40 124" stroke-linecap="round"
+                style="animation:uLoaderSpin 2.2s cubic-bezier(.6,.15,.35,.85) infinite reverse; transform-origin:center"/>
+        <defs>
+          <linearGradient id="uG1" x1="0" y1="0" x2="84" y2="84" gradientUnits="userSpaceOnUse">
+            <stop offset="0%" stop-color="#ffd17a"/>
+            <stop offset="100%" stop-color="#ff8eb8"/>
+          </linearGradient>
+          <linearGradient id="uG2" x1="84" y1="0" x2="0" y2="84" gradientUnits="userSpaceOnUse">
+            <stop offset="0%" stop-color="#ff6b9d"/>
+            <stop offset="100%" stop-color="#a78bfa"/>
+          </linearGradient>
+        </defs>
+      </svg>
+    </div>
+    <div id="u-loading-title">Universe of Us</div>
+    <div id="u-loading-sub">Đang chuẩn bị vũ trụ của đôi ta...</div>
+    <div id="u-loading-hint">Preparing your universe</div>
+  </div>
+
+  <canvas id="bg-stars" aria-hidden="true"></canvas>
+
+  <audio id="bg-music" loop preload="auto"></audio>
+  <button id="music-toggle" aria-label="Bật/tắt nhạc" title="Bật/tắt nhạc">
+    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/>
+    </svg>
+  </button>
+
+  <main id="stage"></main>
+
+  <div id="transition-veil" aria-hidden="true">
+    <div class="veil-core"></div>
+  </div>
+
+  <script src="assets/config.js"></script>
+  <script type="module">
+    const loading = document.getElementById('u-loading');
+    try {
+      await loadPreviewDraft();
+      await import('./main.js');
+    } finally {
+      if (loading) {
+        loading.classList.add('hide');
+        setTimeout(() => loading.remove(), 700);
+      }
+    }
+
+    async function loadPreviewDraft() {
+      const params = new URLSearchParams(window.location.search);
+      if (params.get('preview') !== '1' || !window.indexedDB) return;
+
+      const draft = await readDraftFromEditor();
+      if (!draft) return;
+
+      const assetUrl = (path, file) => {
+        if (file instanceof Blob) return URL.createObjectURL(file);
+        return path || '';
+      };
+
+      window.FIREBASE_DATA = {
+        intro: {
+          topic: draft.intro?.topic || 'Happy Anniversary',
+          recipientName: draft.intro?.recipientName || 'Em yeu'
+        },
+        book: {
+          pages: (draft.book?.pages || []).map((page) => ({
+            image: assetUrl(page.image, page.file),
+            text: page.text || ''
+          }))
+        },
+        galaxy: {
+          plates: (draft.galaxy?.plates || []).map((plate) => ({
+            name: plate.name || '',
+            message: plate.message || '',
+            src: assetUrl(plate.src, plate.file),
+            hue: Number(plate.hue || 320),
+            pattern: plate.pattern || 'heart'
+          })),
+          phrases: Array.isArray(draft.galaxy?.phrases) ? draft.galaxy.phrases : []
+        },
+        heart: {
+          heartColor: draft.heart?.heartColor || '#ff1493'
+        },
+        audio: {
+          src: assetUrl(draft.audio?.src, draft.audio?.file),
+          volume: Number(draft.audio?.volume ?? 1)
+        }
+      };
+    }
+
+    async function readDraftFromEditor() {
+      return new Promise((resolve) => {
+        const req = indexedDB.open('OurDayCustomizeDB', 1);
+        req.onerror = () => resolve(null);
+        req.onupgradeneeded = () => req.result.createObjectStore('drafts');
+        req.onsuccess = () => {
+          const db = req.result;
+          const tx = db.transaction('drafts', 'readonly');
+          const getReq = tx.objectStore('drafts').get('current');
+          getReq.onsuccess = () => resolve(getReq.result || null);
+          getReq.onerror = () => resolve(null);
+          tx.oncomplete = () => db.close();
+        };
+      });
+    }
+  </script>
+</body>
+</html>

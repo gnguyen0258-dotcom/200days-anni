@@ -1,0 +1,259 @@
+/* ═══════════════════════════════════════════════════════════════════
+   HỒI 4 — GALAXY GALLERY STYLES (giữ nguyên thẩm mỹ bản gốc)
+   ═══════════════════════════════════════════════════════════════════ */
+
+#act4 {
+  position: absolute;
+  inset: 0;
+  background: #000;
+  overflow: hidden;
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+}
+
+#act4 .galaxy-bg-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  z-index: 0;
+  cursor: grab;
+}
+#act4 .galaxy-bg-canvas:active { cursor: grabbing; }
+
+/* ─── Message overlay (khi click plate) ─── */
+#act4 .galaxy-message-overlay {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at center, rgba(40,5,30,0.85), rgba(0,0,0,0.95));
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.6s ease;
+
+  /* FIX landscape: cho phép scroll khi nội dung dài hơn viewport.
+     Padding tôn trọng safe-area để tránh notch + tab bar che. */
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  padding:
+    max(20px, env(safe-area-inset-top))
+    max(20px, env(safe-area-inset-right))
+    max(20px, env(safe-area-inset-bottom))
+    max(20px, env(safe-area-inset-left));
+}
+#act4 .galaxy-message-overlay.show {
+  opacity: 1;
+  pointer-events: auto;
+}
+#act4 .galaxy-message-card {
+  /* Trên desktop / tablet portrait: card rộng hơn để ảnh + chữ rõ */
+  max-width: 720px;
+  width: min(720px, 100%);
+  padding: clamp(20px, 4vh, 48px) clamp(24px, 5vw, 56px);
+  text-align: center;
+  transform: translateY(20px) scale(0.95);
+  transition: transform 0.6s cubic-bezier(0.2,0.8,0.2,1);
+  position: relative;
+  margin: auto;            /* căn giữa cả khi overlay scrollable */
+}
+#act4 .galaxy-message-overlay.show .galaxy-message-card {
+  transform: translateY(0) scale(1);
+}
+#act4 .galaxy-message-image {
+  /* TĂNG SIZE cho portrait mobile.
+     Cũ: clamp(180px, min(46vw, 56dvh), 420px) → trên iPhone 380px chỉ ~175px.
+     Mới: clamp(240px, min(68vw, 50dvh), 460px) → trên iPhone 380px ~258px,
+     trên iPhone 414px ~282px. Tablet portrait 768px → capped 460px.
+     - 68vw = ảnh chiếm gần 70% chiều ngang viewport (đủ to để xem rõ)
+     - 50dvh = đảm bảo ảnh không vượt nửa chiều cao viewport */
+  width: clamp(240px, min(68vw, 50dvh), 460px);
+  height: clamp(240px, min(68vw, 50dvh), 460px);
+  margin: 0 auto clamp(16px, 2.5vh, 28px);
+  filter: drop-shadow(0 0 40px rgba(255,80,140,0.6));
+  animation: galaxyFloaty 4s ease-in-out infinite;
+}
+@keyframes galaxyFloaty {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-10px); }
+}
+#act4 .galaxy-message-title {
+  font-size: clamp(24px, 3.6vh, 36px);
+  font-weight: 700;
+  color: #fff;
+  margin: 0 0 clamp(12px, 2vh, 24px);
+  letter-spacing: 0.05em;
+  text-shadow: 0 0 20px rgba(255,100,160,0.7);
+  font-family: 'Cormorant Garamond', 'Georgia', serif;
+  font-style: italic;
+}
+#act4 .galaxy-message-text {
+  font-size: clamp(16px, 2.6vh, 22px);
+  line-height: 1.7;
+  color: rgba(255,235,240,0.95);
+  margin: 0 0 clamp(18px, 3vh, 36px);
+  font-family: 'Cormorant Garamond', 'Georgia', serif;
+  text-wrap: pretty;
+}
+#act4 .galaxy-message-close {
+  background: transparent;
+  border: 1px solid rgba(255,180,200,0.5);
+  color: rgba(255,220,230,0.9);
+  padding: 12px 32px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px;
+  letter-spacing: 0.2em;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+#act4 .galaxy-message-close:hover {
+  background: rgba(255,100,160,0.2);
+  border-color: rgba(255,200,220,0.9);
+  color: #fff;
+}
+#act4 .galaxy-message-card::before {
+  content: '♥';
+  position: absolute;
+  top: -10px; left: 50%;
+  transform: translateX(-50%);
+  font-size: 24px;
+  color: rgba(255,120,170,0.7);
+  animation: galaxySparkle 2s ease-in-out infinite;
+}
+@keyframes galaxySparkle {
+  0%, 100% { opacity: 0.4; transform: translateX(-50%) scale(1); }
+  50%      { opacity: 1;   transform: translateX(-50%) scale(1.2); }
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   LANDSCAPE MOBILE (iPhone 11/SE landscape, Galaxy landscape, …)
+   Chiều cao viewport thấp (≤520px) → KHÔNG đủ chỗ stack vertical.
+   Chuyển sang LAYOUT 2 CỘT: ảnh trái + (title/text/close) phải.
+   Tận dụng chiều ngang → mọi thứ vẫn fit trong viewport, ảnh + chữ
+   vẫn đủ TO để xem rõ trên điện thoại.
+
+   FIX căn giữa dọc (title/text/close) với ảnh:
+   Trước đây dùng `grid-template-rows: auto 1fr auto` → text bị
+   `align-self: start` đẩy LÊN TRÊN, close ở DƯỚI → để khoảng trống
+   LỚN ở giữa và dưới → mất cân đối.
+
+   Giờ dùng "SANDWICH LAYOUT": 5 rows với 1fr ở đầu và cuối, content
+   ở giữa → title/text/close TỰ ĐỘNG căn giữa dọc với ảnh.
+
+     "."  ← row 1: 1fr (empty space trên)
+     "title"
+     "text"
+     "close"
+     "."  ← row 5: 1fr (empty space dưới)
+
+   Ảnh span tất cả 5 rows → full chiều cao card.
+   ═══════════════════════════════════════════════════════════════════ */
+@media (max-height: 520px) and (orientation: landscape) {
+  #act4 .galaxy-message-overlay {
+    /* Trên landscape thấp, padding bottom phải đủ thoát khỏi tab bar
+       (Safari iOS bottom bar nuốt ~44pt; safe-area-inset-bottom = 21px) */
+    padding:
+      max(12px, env(safe-area-inset-top))
+      max(20px, env(safe-area-inset-right))
+      max(12px, calc(env(safe-area-inset-bottom) + 12px))
+      max(20px, env(safe-area-inset-left));
+  }
+  #act4 .galaxy-message-card {
+    /* Tăng max-width để chiếm gần hết chiều ngang viewport mobile landscape.
+       Trên iPhone 11 landscape (812x375), 96vw ≈ 780px → card chiếm gần
+       trọn → ảnh + chữ được scale to hơn. */
+    max-width: min(900px, 96vw);
+    width: 100%;
+    padding: 18px 28px;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    /* SANDWICH: 1fr-auto-auto-auto-1fr → content (rows 2-4) căn giữa dọc */
+    grid-template-rows: 1fr auto auto auto 1fr;
+    column-gap: 32px;
+    row-gap: 8px;
+    align-items: center;
+    text-align: left;
+    /* KHÔNG dùng grid-template-areas nữa — thay bằng grid-row/column explicit */
+  }
+  #act4 .galaxy-message-image {
+    /* Ảnh span ALL 5 rows → full chiều cao card */
+    grid-column: 1;
+    grid-row: 1 / -1;
+    /* Ảnh tròn chiếm gần FULL chiều cao card (sau khi trừ padding) →
+       to rõ ràng trên điện thoại landscape, ko bị "nhỏ xíu" như trước. */
+    width: clamp(160px, 72dvh, 280px);
+    height: clamp(160px, 72dvh, 280px);
+    margin: 0;
+    align-self: center;
+  }
+  #act4 .galaxy-message-title {
+    grid-column: 2;
+    grid-row: 2;          /* row giữa của sandwich (sau 1fr empty trên) */
+    margin: 0 0 6px;
+    /* Tăng font-size theo dvh — trên iPhone 11 landscape ~375px height,
+       6dvh ≈ 22.5px (đủ to và rõ). */
+    font-size: clamp(20px, 6dvh, 30px);
+  }
+  #act4 .galaxy-message-text {
+    grid-column: 2;
+    grid-row: 3;          /* row giữa: text */
+    margin: 0;
+    font-size: clamp(15px, 4dvh, 20px);
+    line-height: 1.55;
+    /* Nếu text rất dài → cho scroll riêng để không đẩy close button đi */
+    max-height: 28dvh;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    padding-right: 8px;
+  }
+  #act4 .galaxy-message-close {
+    grid-column: 2;
+    grid-row: 4;          /* row cuối: close button */
+    justify-self: start;
+    padding: 9px 26px;
+    font-size: 12px;
+    margin-top: 10px;
+  }
+  /* Heart ornament ở landscape: di chuyển vào góc trên-trái của card để
+     không bị notch hoặc safe-area che */
+  #act4 .galaxy-message-card::before {
+    top: -8px;
+    left: 28px;
+    transform: none;
+    font-size: 20px;
+  }
+  @keyframes galaxySparkle {
+    0%, 100% { opacity: 0.4; transform: scale(1); }
+    50%      { opacity: 1;   transform: scale(1.2); }
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   PORTRAIT NHỎ (iPhone SE, iPhone mini portrait — height < 700px)
+   Giữ layout vertical nhưng cân đối ảnh & padding để tránh tràn tab bar
+   ═══════════════════════════════════════════════════════════════════ */
+@media (orientation: portrait) and (max-height: 700px) {
+  #act4 .galaxy-message-card {
+    padding: 24px 32px;
+  }
+  /* Ảnh portrait nhỏ: bump để dễ nhìn trên SE / mini.
+     Cũ: clamp(200px, 42dvh, 320px). Mới: dùng cả vw + dvh để to hơn. */
+  #act4 .galaxy-message-image {
+    width: clamp(220px, min(64vw, 46dvh), 360px);
+    height: clamp(220px, min(64vw, 46dvh), 360px);
+    margin-bottom: 20px;
+  }
+  #act4 .galaxy-message-title {
+    font-size: clamp(22px, 4.5dvh, 28px);
+    margin-bottom: 14px;
+  }
+  #act4 .galaxy-message-text {
+    font-size: clamp(15px, 2.4dvh, 18px);
+    margin-bottom: 22px;
+  }
+}
