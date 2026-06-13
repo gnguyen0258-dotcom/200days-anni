@@ -48,50 +48,50 @@ window.FIREBASE_DATA = {
         "pattern": "sky"
       },
       {
-        "name": "Em say giấc",
+        "name": "Yeu theee nhiiii",
         "message": "Khi em say giấc, anh thầm hứa giữ thế giới em yên bình.",
         "src": "assets/images/gallery-03.jpg",
         "hue": 350,
         "pattern": "rose"
       },
       {
-        "name": "Cùng nhau già đi",
-        "message": "Anh không sợ thời gian, chỉ cần được già đi bên em.",
+        "name": "Trai xinh gái đẹp",
+        "message": "ANH YÊU EM <3",
         "src": "assets/images/gallery-04.jpg",
         "hue": 320,
         "pattern": "heart"
       },
       {
-        "name": "Ngày bình dị",
-        "message": "Một ngày rất đỗi bình thường, có em là hoá thành kỳ diệu.",
+        "name": "Tặng em trái tim",
+        "message": "Tặng embe trái tim to đùnggggggggggggg",
         "src": "assets/images/gallery-05.jpg",
         "hue": 300,
         "pattern": "sky"
       },
       {
-        "name": "Mãi mãi",
-        "message": "Bao nhiêu kiếp sống nữa, anh vẫn sẽ chọn em.",
+        "name": "Gơn phố ",
+        "message": "uUaayfyyyyyyyyyyyyyyy",
         "src": "assets/images/gallery-06.jpg",
         "hue": 360,
         "pattern": "rose"
       },
       {
-        "name": "Tiếng cười khẽ",
-        "message": "Em cười khẽ thôi, lòng anh đã nở cả một mùa xuân.",
+        "name": "Ai mò đáng iuuuuuu thíiiiiiii",
+        "message": "Ỏooooooooooooooooooooooooo",
         "src": "assets/images/gallery-07.jpg",
         "hue": 290,
         "pattern": "heart"
       },
       {
-        "name": "Mỗi ngày bên em",
-        "message": "Mỗi ngày bên em là một món quà anh không xứng đáng nhận.",
+        "name": "Tỏ tình",
+        "message": "Ngày chúng ta chính thức iu neeeeeeeee",
         "src": "assets/images/gallery-08.jpg",
         "hue": 330,
         "pattern": "sky"
       },
       {
-        "name": "Lời hứa",
-        "message": "Em là lời hứa anh muốn giữ trọn cả đời.",
+        "name": "Embe iuuuuuuu",
+        "message": "Sĩ nhất quả đất lunnnnnnnnnnnnnn",
         "src": "assets/images/gallery-09.jpg",
         "hue": 270,
         "pattern": "rose"
